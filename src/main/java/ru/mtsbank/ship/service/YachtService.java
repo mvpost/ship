@@ -15,8 +15,8 @@ import java.util.Objects;
 @Service
 public class YachtService extends JSONHelper {
     private final YachtRepository repository = new YachtRepository();
-    OkHttpClient client = new OkHttpClient();
-    JsonMapper jsonMapper = new JsonMapper();
+    private final OkHttpClient client = new OkHttpClient();
+    private final JsonMapper jsonMapper = new JsonMapper();
 
     public Yacht create(String name) { return repository.create(name); }
 
