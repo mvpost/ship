@@ -6,13 +6,13 @@ import ru.mtsbank.ship.response.CountryResponse;
 import ru.mtsbank.ship.service.YachtService;
 import java.io.IOException;
 
-public class YachtTread extends Thread {
+public class YachtThread extends Thread {
     @Setter
     private String shipName;
     private volatile boolean isRunning = true;
     YachtService yachtService = new YachtService();
 
-    public YachtTread(String shipName) {
+    public YachtThread(String shipName) {
         this.shipName = shipName;
     }
 
@@ -24,7 +24,7 @@ public class YachtTread extends Thread {
     public void run() {
         Yacht yacht = yachtService.create(shipName);
         try {
-            String url = yachtService.requestURL(yacht.getName());
+            String url = yachtService.requestURL(yacht.getName(), "yacht");
 
             while (isRunning) {
                 if (url != null) {

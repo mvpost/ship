@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import ru.mtsbank.ship.response.CountryResponse;
 import ru.mtsbank.ship.model.Yacht;
 import ru.mtsbank.ship.repository.YachtRepository;
-import ru.mtsbank.ship.response.UrlResponse;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -25,14 +24,6 @@ public class YachtService extends JSONHelper {
                 countryResponse.getName(),
                 countryResponse.getLatitude(),
                 countryResponse.getLongitude());
-    }
-
-    public String requestURL(String yachtName) throws IOException {
-        Request request = getInitRequest(yachtName, "yacht");
-        Call call = client.newCall(request);
-        Response response = call.execute();
-        return jsonMapper.readValue(Objects.requireNonNull(response.body()).string(), UrlResponse.class)
-                .getLocation();
     }
 
     public CountryResponse requestCountry(String url, String currentCountry) throws IOException {

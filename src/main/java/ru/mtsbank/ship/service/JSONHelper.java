@@ -1,15 +1,18 @@
 package ru.mtsbank.ship.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import okhttp3.MediaType;
-import okhttp3.Request;
-import okhttp3.RequestBody;
+import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
 import ru.mtsbank.ship.request.UrlRequest;
 import com.fasterxml.jackson.databind.json.JsonMapper;
+import ru.mtsbank.ship.response.UrlResponse;
+
+import java.io.IOException;
+import java.util.Objects;
 
 public class JSONHelper {
-    JsonMapper jsonMapper = new JsonMapper();
+    private final JsonMapper jsonMapper = new JsonMapper();
+    private final OkHttpClient client = new OkHttpClient();
     private static final String BASE_URL = "http://localhost:8080";
     private static final MediaType MEDIA_TYPE = MediaType
             .parse("application/json; charset=utf-8");
@@ -19,6 +22,14 @@ public class JSONHelper {
         urlRequest.setName(name);
         urlRequest.setType(type);
         return jsonMapper.writeValueAsString(urlRequest);
+    }
+
+    protected static String getBaseUrl() {
+        return BASE_URL;
+    }
+
+    protected static MediaType getMediaType() {
+        return MediaType.parse("application/json; charset=utf-8");
     }
 
     @NotNull
@@ -35,6 +46,14 @@ public class JSONHelper {
                 .url(BASE_URL + "/init")
                 .post(body)
                 .build();
+    }
+
+    public String requestURL(String boatName, String type) throws IOException {
+        Request request = getInitRequest(boatName, type);
+        Call call = client.newCall(request);
+        Response response = call.execute();
+        return jsonMapper.readValue(Objects.requireNonNull(response.body()).string(), UrlResponse.class)
+                .getLocation();
     }
 
 }
