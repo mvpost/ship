@@ -50,6 +50,7 @@ public class ShipThread extends Thread {
                     if (httpCode.equals(200)) {
                         System.out.println("Судно " + ship.getName() + " ёмкостью "
                                 + ship.getCapacity() + " причалило в порту");
+                        shipService.uploadFile(url);
                         waitUnloading(url, ship);
                         ship = shipService.createNewShip();
                     } else {

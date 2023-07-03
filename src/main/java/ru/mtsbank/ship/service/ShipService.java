@@ -9,6 +9,7 @@ import ru.mtsbank.ship.model.Ship;
 import ru.mtsbank.ship.repository.ShipRepository;
 import ru.mtsbank.ship.request.ShipRequest;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Random;
 
@@ -75,5 +76,32 @@ public class ShipService extends JSONHelper {
         Call call = client.newCall(request);
         Response response = call.execute();
         return response.code();
+    }
+
+    public void uploadFile(String url) {
+        String serverURL = BASE_URL + url + "/upload";
+        File file = new File("/home/onix/Рабочий стол/kontejner.jpg");
+
+        RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                .addFormDataPart("file", file.getName(),
+                        RequestBody.create(MediaType.parse("image/jpg"), file))
+                .build();
+
+        Request request = new Request.Builder()
+                .url(serverURL)
+                .post(requestBody)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NotNull final Call call, @NotNull final IOException e) {}
+
+            @Override
+            public void onResponse(@NotNull final Call call, @NotNull final Response response) {
+                if (!response.isSuccessful()) {
+                    System.out.println("Ошибка при передаче файла: " + response.message());
+                }
+            }
+        });
     }
 }
