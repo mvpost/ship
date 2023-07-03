@@ -1,6 +1,7 @@
 package ru.mtsbank.ship;
 
 import ru.mtsbank.ship.thread.BoatThread;
+import ru.mtsbank.ship.thread.ShipThread;
 import ru.mtsbank.ship.thread.YachtThread;
 
 public class ShipApplication {
@@ -22,8 +23,8 @@ public class ShipApplication {
 		}
 	}
 
-	private static void yachtTrip(String shipName) {
-		YachtThread yachtTread = new YachtThread(shipName);
+	private static void yachtTrip(String yachtName) {
+		YachtThread yachtTread = new YachtThread(yachtName);
 		yachtTread.start();
 	}
 
@@ -33,7 +34,8 @@ public class ShipApplication {
 	}
 
 	private static void portStop(String shipName) {
-		System.out.println("Прибыло судно " + shipName);
+		ShipThread shipThread = new ShipThread(shipName);
+		shipThread.start();
 	}
 
 	private static void waitShutdown() {
