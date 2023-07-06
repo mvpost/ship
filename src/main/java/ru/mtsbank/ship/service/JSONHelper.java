@@ -18,7 +18,6 @@ public class JSONHelper {
     private static final MediaType MEDIA_TYPE = MediaType
             .parse("application/json; charset=utf-8");
 
-
     private String getInitRequestJSON (String name, String type) throws JsonProcessingException {
         UrlRequest urlRequest = new UrlRequest();
         urlRequest.setName(name);
