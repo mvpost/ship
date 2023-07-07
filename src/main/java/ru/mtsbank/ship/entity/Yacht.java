@@ -1,4 +1,4 @@
-package ru.mtsbank.ship.model;
+package ru.mtsbank.ship.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

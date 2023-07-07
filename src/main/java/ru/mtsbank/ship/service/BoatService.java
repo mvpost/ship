@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.json.JsonMapper;
 import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
-import ru.mtsbank.ship.model.Boat;
+import ru.mtsbank.ship.entity.Boat;
 import ru.mtsbank.ship.repository.BoatRepository;
 import ru.mtsbank.ship.request.FishRequest;
 import ru.mtsbank.ship.response.FishResponse;

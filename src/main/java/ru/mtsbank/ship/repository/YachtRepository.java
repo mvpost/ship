@@ -1,7 +1,7 @@
 package ru.mtsbank.ship.repository;
 
 import org.jetbrains.annotations.NotNull;
-import ru.mtsbank.ship.model.Yacht;
+import ru.mtsbank.ship.entity.Yacht;
 import org.springframework.stereotype.Repository;
 
 @Repository

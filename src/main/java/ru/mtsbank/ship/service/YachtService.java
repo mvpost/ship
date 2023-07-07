@@ -5,7 +5,7 @@ import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import ru.mtsbank.ship.response.CountryResponse;
-import ru.mtsbank.ship.model.Yacht;
+import ru.mtsbank.ship.entity.Yacht;
 import ru.mtsbank.ship.repository.YachtRepository;
 
 import java.io.IOException;

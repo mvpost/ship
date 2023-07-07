@@ -1,7 +1,7 @@
 package ru.mtsbank.ship.thread;
 
 import lombok.Setter;
-import ru.mtsbank.ship.model.Boat;
+import ru.mtsbank.ship.entity.Boat;
 import ru.mtsbank.ship.response.FishResponse;
 import ru.mtsbank.ship.service.BoatService;
 import java.io.IOException;
