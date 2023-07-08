@@ -28,7 +28,7 @@ public class ShipThread extends Thread {
             String url = shipService.requestURL(ship.getName(), "ship");
             while (isRunning) {
                 if (url != null) {
-                    shipService.uploadFile2(url, ship.getName(), ship.getCapacity());
+                    shipService.addShip(url, ship.getName(), ship.getCapacity());
                     log.info("Судно " + ship.getName() + " ёмкостью "
                             + ship.getCapacity() + " разгрузилось в порту");
                     ship = shipService.createNewShip();

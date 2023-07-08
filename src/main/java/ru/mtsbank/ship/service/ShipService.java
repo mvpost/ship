@@ -33,7 +33,7 @@ public class ShipService extends JSONHelper {
         return repository.create(name, capacity);
     }
 
-    public void uploadFile2(String url, String shipName, Integer capacity) {
+    public void addShip(String url, String shipName, Integer capacity) {
         String serverURL = BASE_URL + url;
         File file = new File("/home/onix/Рабочий стол/kontejner.jpg");
 
