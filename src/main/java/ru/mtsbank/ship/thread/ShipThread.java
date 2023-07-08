@@ -1,11 +1,12 @@
 package ru.mtsbank.ship.thread;
 
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import ru.mtsbank.ship.entity.Ship;
 import ru.mtsbank.ship.service.ShipService;
 
 import java.io.IOException;
-
+@Slf4j
 public class ShipThread extends Thread {
     @Setter
     private String shipName;
@@ -20,24 +21,6 @@ public class ShipThread extends Thread {
         isRunning = false;
     }
 
-    private void waitUnloading(String url, Ship ship) {
-        Thread thread = new Thread(() -> {
-            try {
-                sleep(5000);
-                Integer httpCode = shipService.releaseJetty(url, ship.getName(), ship.getCapacity());
-                if (httpCode.equals(200)) {
-                    System.out.println("Судно " + ship.getName() + " ёмкостью "
-                            + ship.getCapacity() + " освободило причал");
-                } else {
-                    System.out.println("Судну " + ship.getName() + " не удалось освободить причал");
-                }
-            } catch (IOException | InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        });
-        thread.start();
-    }
-
     @Override
     public void run() {
         Ship ship = shipService.create(shipName, 1);
@@ -48,13 +31,12 @@ public class ShipThread extends Thread {
                 if (url != null) {
                     Integer httpCode = shipService.requestJetty(url, ship.getName(), ship.getCapacity());
                     if (httpCode.equals(200)) {
-                        System.out.println("Судно " + ship.getName() + " ёмкостью "
+                        log.info("Судно " + ship.getName() + " ёмкостью "
                                 + ship.getCapacity() + " причалило в порту");
                         shipService.uploadFile(url);
-                        waitUnloading(url, ship);
                         ship = shipService.createNewShip();
                     } else {
-                        System.out.println("Все причалы заняты");
+                        log.info("Все причалы заняты");
                     }
                 }
                 sleep(1000);

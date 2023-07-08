@@ -1,11 +1,12 @@
 package ru.mtsbank.ship.thread;
 
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import ru.mtsbank.ship.entity.Boat;
 import ru.mtsbank.ship.response.FishResponse;
 import ru.mtsbank.ship.service.BoatService;
 import java.io.IOException;
-
+@Slf4j
 public class BoatThread extends Thread {
     @Setter
     private String shipName;
@@ -31,9 +32,9 @@ public class BoatThread extends Thread {
                     boat = boatService.getFishingResult(boat);
                     FishResponse fishResponse = boatService.requestMoney(url, boat.getFishName(), boat.getFishCount());
                     boat = boatService.save(boat, fishResponse);
-                    System.out.println("Рыбацкой лодке заплатили за рыбу " + fishResponse.getName()
+                    log.info("Рыбацкой лодке заплатили за рыбу " + fishResponse.getName()
                             + " денег " + fishResponse.getCost());
-                    System.out.println("Всего денег: " + boat.getMoney());
+                    log.info("Всего денег: " + boat.getMoney());
                 }
                 sleep(1000);
             }

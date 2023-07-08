@@ -1,11 +1,12 @@
 package ru.mtsbank.ship.thread;
 
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import ru.mtsbank.ship.entity.Yacht;
 import ru.mtsbank.ship.response.CountryResponse;
 import ru.mtsbank.ship.service.YachtService;
 import java.io.IOException;
-
+@Slf4j
 public class YachtThread extends Thread {
     @Setter
     private String shipName;
@@ -30,7 +31,7 @@ public class YachtThread extends Thread {
                 if (url != null) {
                     CountryResponse countryResponse = yachtService.requestCountry(url, yacht.getCountry());
                     yacht = yachtService.save(yacht, countryResponse);
-                    System.out.println("Яхта " + yacht.getName() + " отправилась в страну " + yacht.getCountry());
+                    log.info("Яхта " + yacht.getName() + " отправилась в страну " + yacht.getCountry());
                 }
                 sleep(1000);
             }
