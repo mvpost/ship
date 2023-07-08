@@ -26,18 +26,12 @@ public class ShipThread extends Thread {
         Ship ship = shipService.create(shipName, 1);
         try {
             String url = shipService.requestURL(ship.getName(), "ship");
-
             while (isRunning) {
                 if (url != null) {
-                    Integer httpCode = shipService.requestJetty(url, ship.getName(), ship.getCapacity());
-                    if (httpCode.equals(200)) {
-                        log.info("Судно " + ship.getName() + " ёмкостью "
-                                + ship.getCapacity() + " причалило в порту");
-                        shipService.uploadFile(url);
-                        ship = shipService.createNewShip();
-                    } else {
-                        log.info("Все причалы заняты");
-                    }
+                    shipService.uploadFile2(url, ship.getName(), ship.getCapacity());
+                    log.info("Судно " + ship.getName() + " ёмкостью "
+                            + ship.getCapacity() + " разгрузилось в порту");
+                    ship = shipService.createNewShip();
                 }
                 sleep(1000);
             }
