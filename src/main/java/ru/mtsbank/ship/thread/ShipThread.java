@@ -1,5 +1,6 @@
 package ru.mtsbank.ship.thread;
 
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import ru.mtsbank.ship.entity.Ship;

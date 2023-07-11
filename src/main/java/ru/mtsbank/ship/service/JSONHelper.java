@@ -48,7 +48,7 @@ public class JSONHelper {
         String json = getInitRequestJSON(name, type);
         RequestBody body = RequestBody.create(json, MEDIA_TYPE);
         return new Request.Builder()
-                .url(BASE_URL + "/init")
+                .url(BASE_URL + "/location")
                 .post(body)
                 .build();
     }
