@@ -29,12 +29,6 @@ public class BoatThread extends Thread {
 
             while (isRunning) {
                 if (url != null) {
-/*                    boat = boatService.getFishingResult(boat);
-                    FishResponse fishResponse = boatService.requestMoney(url, boat.getFishName(), boat.getFishCount());
-                    boat = boatService.save(boat, fishResponse);
-                    log.info("Рыбацкой лодке заплатили за рыбу " + fishResponse.getName()
-                            + " денег " + fishResponse.getCost());
-                    log.info("Всего денег: " + boat.getMoney());*/
                     boat = boatService.getFishingResult(boat);
                     float money = boatService.requestMoney(url, boat.getFishName(), boat.getFishCount());
                     boat = boatService.save(boat, money);
