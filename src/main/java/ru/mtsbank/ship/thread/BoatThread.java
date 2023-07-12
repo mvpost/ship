@@ -3,7 +3,6 @@ package ru.mtsbank.ship.thread;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import ru.mtsbank.ship.entity.Boat;
-import ru.mtsbank.ship.response.FishResponse;
 import ru.mtsbank.ship.service.BoatService;
 import java.io.IOException;
 @Slf4j
