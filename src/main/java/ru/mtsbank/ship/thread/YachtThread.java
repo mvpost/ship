@@ -25,7 +25,7 @@ public class YachtThread extends Thread {
     public void run() {
         Yacht yacht = yachtService.create(shipName);
         try {
-            String url = yachtService.requestURL(yacht.getName(), "yacht");
+            String url = yachtService.requestURL("yacht");
 
             while (isRunning) {
                 if (url != null) {

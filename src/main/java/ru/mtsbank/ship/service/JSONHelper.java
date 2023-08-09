@@ -1,12 +1,8 @@
 package ru.mtsbank.ship.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
-import ru.mtsbank.ship.request.UrlRequest;
-import com.fasterxml.jackson.databind.json.JsonMapper;
-import ru.mtsbank.ship.response.UrlResponse;
 
 import java.io.File;
 import java.io.FileReader;
@@ -16,26 +12,15 @@ import java.util.Properties;
 
 @Service
 public class JSONHelper {
-    private final JsonMapper jsonMapper = new JsonMapper();
     private final OkHttpClient client = new OkHttpClient();
-    private static final MediaType MEDIA_TYPE;
     private static final String BASE_URL;
 
     static {
         try {
-            MEDIA_TYPE = MediaType
-                    .parse(getProperty("mediaType"));
             BASE_URL = getProperty("host") + ":" + getProperty("port");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    private String getInitRequestJSON (String name, String type) throws JsonProcessingException {
-        UrlRequest urlRequest = new UrlRequest();
-        urlRequest.setName(name);
-        urlRequest.setType(type);
-        return jsonMapper.writeValueAsString(urlRequest);
     }
 
     protected static String getBaseUrl() {
@@ -49,21 +34,13 @@ public class JSONHelper {
                 .build();
     }
 
-    protected Request getInitRequest(String name, String type) throws JsonProcessingException {
-        String json = getInitRequestJSON(name, type);
-        RequestBody body = RequestBody.create(json, MEDIA_TYPE);
-        return new Request.Builder()
-                .url(BASE_URL + "/location")
-                .post(body)
+    public String requestURL(String type) throws IOException {
+        Request request = new Request.Builder()
+                .url(BASE_URL + "/location/" + type)
                 .build();
-    }
-
-    public String requestURL(String boatName, String type) throws IOException {
-        Request request = getInitRequest(boatName, type);
         Call call = client.newCall(request);
         Response response = call.execute();
-        return jsonMapper.readValue(Objects.requireNonNull(response.body()).string(), UrlResponse.class)
-                .getLocation();
+        return Objects.requireNonNull(response.body()).string();
     }
 
     private static String getProperty(String propertyName) throws IOException {

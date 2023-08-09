@@ -26,7 +26,7 @@ public class ShipThread extends Thread {
     public void run() {
         Ship ship = shipService.create(shipName, 1);
         try {
-            String url = shipService.requestURL(ship.getName(), "ship");
+            String url = shipService.requestURL("ship");
             while (isRunning) {
                 if (url != null) {
                     shipService.addShip(url, ship.getName(), ship.getCapacity());
