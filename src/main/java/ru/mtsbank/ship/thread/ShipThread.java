@@ -1,6 +1,5 @@
 package ru.mtsbank.ship.thread;
 
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import ru.mtsbank.ship.entity.Ship;
@@ -25,19 +24,23 @@ public class ShipThread extends Thread {
     @Override
     public void run() {
         Ship ship = shipService.create(shipName, 1);
-        try {
-            String url = shipService.requestURL("ship");
-            while (isRunning) {
-                if (url != null) {
-                    shipService.addShip(url, ship.getName(), ship.getCapacity());
-                    log.info("Судно " + ship.getName() + " ёмкостью "
-                            + ship.getCapacity() + " разгрузилось в порту");
-                    ship = shipService.createNewShip();
+        while (isRunning) {
+            try {
+                String url = shipService.requestShipURL("ship", ship.getCapacity());
+                String jettyName = url.substring(url.lastIndexOf("/") + 1);
+                url = url.substring(0, url.lastIndexOf("/"));
+                shipService.addShip(url, ship.getName(), ship.getCapacity(), jettyName);
+                log.info("Судно %s ёмкостью %s разгрузилось на причале %s".formatted(ship.getName(), ship.getCapacity(), jettyName));
+                ship = shipService.createNewShip();
+                sleep(500);
+            } catch (IOException | InterruptedException e) {
+                log.info("Причал занят");
+                try {
+                    sleep(500);
+                } catch (InterruptedException ex) {
+                    throw new RuntimeException(ex);
                 }
-                sleep(1000);
             }
-        } catch (IOException | InterruptedException e) {
-            throw new RuntimeException(e);
         }
     }
 }
